@@ -1,15 +1,21 @@
+
+#Numpy
 import numpy as np
 
 # global variables
 BOARD_ROWS = 3
 BOARD_COLS = 4
+
+#Win and Loss
 WIN_STATE = (0, 3)
 LOSE_STATE = (1, 3)
 START = (2, 0)
 DETERMINISTIC = True
 
-
+#State class
 class State:
+
+    #Initialize State
     def __init__(self, state=START):
         self.board = np.zeros([BOARD_ROWS, BOARD_COLS])
         self.board[1, 1] = -1
@@ -17,6 +23,7 @@ class State:
         self.isEnd = False
         self.determine = DETERMINISTIC
 
+    #Return reward to agent
     def giveReward(self):
         if self.state == WIN_STATE:
             return 1
@@ -24,11 +31,14 @@ class State:
             return -1
         else:
             return 0
+    
+#End state
 
     def isEndFunc(self):
         if (self.state == WIN_STATE) or (self.state == LOSE_STATE):
             self.isEnd = True
 
+#State Transition Function
     def nxtPosition(self, action):
         """
         action: up, down, left, right
@@ -47,12 +57,15 @@ class State:
                 nxtState = (self.state[0], self.state[1] - 1)
             else:
                 nxtState = (self.state[0], self.state[1] + 1)
+                
             # if next state legal
             if (nxtState[0] >= 0) and (nxtState[0] <= (BOARD_ROWS -1)):
-                if (nxtState[1] >= 0) and (nxtState[1] <= (BOARD_COLS -1):
-                    if nxtState != (1, 1):
-                        return nxtState
-            return self.state
+
+                #ERROR
+                #if (nxtState[1] >= 0) and (nxtState[1] <= (BOARD_COLS -1):
+                    #if nxtState != (1, 1):
+                    #return nxtState
+                return self.state
 
     def showBoard(self):
         self.board[self.state] = 1
@@ -86,7 +99,8 @@ class Agent:
         self.state_values = {}
         for i in range(BOARD_ROWS):
             for j in range(BOARD_COLS):
-                self.state_values[(i, j)] = 0  # set initial value to 0
+                # set initial value to 0
+                self.state_values[(i, j)] = 0  
 
     def chooseAction(self):
         # choose action with most expected value
