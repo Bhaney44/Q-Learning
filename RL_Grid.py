@@ -1,8 +1,16 @@
+
+#Import Pygame
 import pygame
+
+#Import numpy
 import numpy as np
 
-class player():
 
+#Player or Agent
+class player():
+    
+    #Initialize method
+    #Target variables
     def __init__(self, x, y):
         self.x = x
         self.y = y
@@ -13,10 +21,15 @@ class player():
         self.target_pos_x = 25*x
         self.target_pos_y = 25*y
 
+    #Decide move
     def decide_move(self):
+        #If statement
+        #Random number
         if np.random.random(1)[0] < 0.001:
             self.player.set_target(1, 0)
 
+    #Move function
+    #Target
     def move(self):
         if (self.pos_x != self.target_pos_x or self.pos_y != self.target_pos_y):
             self.pos_x = self.pos_x + np.sign(self.target_pos_x - self.pos_x)
@@ -25,6 +38,7 @@ class player():
             self.x = self.target_x
             self.y = self.target_y
 
+    #Set target function
     def set_target(self, dx, dy):
         self.target_pos_x = self.pos_x + 25 * dx
         self.target_x = self.x + 1 * dx
@@ -32,9 +46,11 @@ class player():
         self.target_pos_y = self.pos_y + 25 * dy
         self.target_y = self.y + 1 * dy
 
+    #Draw function
     def draw(self, window):
         pygame.draw.rect(window, (0,0,255), (self.pos_x, self.pos_y, 25, 25))
 
+#Goal class
 class goal():
 
     def __init__(self, x, y):
@@ -43,22 +59,30 @@ class goal():
         self.pos_x = 25*x
         self.pos_y = 25*y
 
+    #draw function
     def draw(self, window):
         pygame.draw.rect(window, (50, 255, 50), (self.pos_x, self.pos_y, 25, 25))
 
+
+#World class
 class world():
 
+    #__init__ function
+    #Players and goals variables
     def __init__(self):
         players = []
         goals = []
 
+    #Add player function
     def add_player(self, x, y):
         self.players.append(player(x,y))
 
+    #Add goal function
     def add_goal(self, x, y):
         self.players.append(goal(x,y))
 
 
+#If statrment
 if __name__ == "__main__":
     
     # Initialize game state
@@ -66,16 +90,22 @@ if __name__ == "__main__":
     ticker = 0
     
     # Board size
+    # 1000 x 1000
     width = 1000
     height = 1000
     
     # Initialize game
+    # Pygame
     pygame.init()
+    # Window
     window = pygame.display.set_mode((width, height))
+    
+    #Game caption
     pygame.display.set_caption("grid game")
 
     # Initialize player
     p1 = player(1, 2)
+    # agent
     agent = agent(p1)
     
     # Start the game loop
@@ -96,7 +126,8 @@ if __name__ == "__main__":
             ticker = 0
         
 
-            
+        #Display Update
         pygame.display.update()        
-                   
+
+    #Pygame quit      
     pygame.quit()
